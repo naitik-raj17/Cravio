@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { FaUtensils } from "react-icons/fa"
 import { serverUrl } from '../App'
 import { setMyShopData } from '../redux/ownerSlice'
+import { ClipLoader } from 'react-spinners'
 function CreateEditShop() {
     const navigate = useNavigate()
     const {currentCity,currentState,currentAddress} = useSelector(state=>state.user)
@@ -17,6 +18,7 @@ function CreateEditShop() {
     const [state,setState] = useState(myShopData?.state|| currentState)
     const [frontendImage,setfrontendImage] = useState(myShopData?.image||null)
     const [backendImage,setBackendImage] = useState(null)
+    const [loading,setLoading] = useState(false)
     const handleImage = (e)=>{
         const file = e.target.files[0]
         setBackendImage(file)
@@ -24,6 +26,7 @@ function CreateEditShop() {
     }
     const handleSubmit = async (e)=>{
         e.preventDefault()
+        setLoading(true)
         try{
             const formData = new FormData()
             formData.append("name",name)
@@ -37,10 +40,13 @@ function CreateEditShop() {
                 withCredentials:true
             })
             dispatch(setMyShopData(result.data))
-            console.log(result.data)
+            // console.log(result.data)
+            setLoading(false)
+            navigate("/")
         }
         catch(error){
             console.log(error)
+            setLoading(false)
         }
     }
 
@@ -106,8 +112,10 @@ function CreateEditShop() {
                     value = {address}
                     />
                 </div>
-                <button type="submit" className='w-full bg-[#ff4d2d] text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200'>
-                    Save
+                <button type="submit" className='w-full bg-[#ff4d2d] text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200'
+                disabled={loading}
+                >{loading?<ClipLoader size={20} color='white'/>:"save"}
+                
                 </button>
             </form>
       </div>

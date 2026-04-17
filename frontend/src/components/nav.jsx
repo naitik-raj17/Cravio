@@ -6,7 +6,6 @@ import { FaLocationDot } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import { IoCart } from "react-icons/io5";
 import { ImCross } from "react-icons/im"
-import {TbReceipt2} from "react-icons/tb";
 import {FaPlus} from "react-icons/fa6";
 import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
@@ -130,25 +129,14 @@ function Nav() {
         {
           userData.role=="owner"? <>
           {myShopData && <>
-          <button className="hidden md:flex items-center gap-1 p-2 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]" >
+          <button className='hidden md:flex items-center gap-1 p-2 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]' onClick={()=>navigate("/add-item")}>
              <FaPlus size={20}/>
              <span>Add Food Item</span>
           </button>
-          <button className="md:hidden flex items-center gap-1 p-2 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]" >
+          <button className="md:hidden flex items-center gap-1 p-2 cursor-pointer rounded-full bg-[#ff4d2d]/10 text-[#ff4d2d]" onClick={()=>navigate("/add-item")} >
              <FaPlus size={20}/> 
           </button>    
           </>}
-          
-
-          <div className="hidden md:flex items-center gap-2 cursor-pointer relative px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] font-medium">
-            <TbReceipt2 size={20}/>
-            <span>My Orders</span>
-            <span className="absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">0</span>
-            </div> 
-          <div className="md:hidden flex items-center gap-2 cursor-pointer relative px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] font-medium">
-            <TbReceipt2 size={20}/>
-            <span className="absolute -right-2 -top-2 text-xs font-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">0</span>
-            </div>        
           </>:(<><button
           type="button"
           className="relative text-[#ff4d2d]"
@@ -193,6 +181,7 @@ function Nav() {
               <div className="text-[16px] font-semibold truncate">
                 {userData?.fullName || "User"}
               </div>
+              {userData?.role === "user" && (
               <button
                 type="button"
                 className="md:hidden text-left text-[#ff4d2d] font-semibold cursor-pointer"
@@ -200,6 +189,7 @@ function Nav() {
               >
                 My Orders
               </button>
+              )}
               <button
                 type="button"
                 className="text-left text-[#ff4d2d] font-semibold cursor-pointer disabled:opacity-60"
